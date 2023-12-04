@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Investment Portfolio</title>
     <style>
-        body {
+       
+       body {
             font-family: Arial, sans-serif;
-            background:linear-gradient(45deg,navy,purple);
+            background: linear-gradient(45deg, navy, purple);
             margin: 0;
             padding: 20px;
             display: flex;
@@ -15,7 +16,18 @@
             align-items: center;
             min-height: 100vh;
         }
-
+        button{
+        width:6rem;
+            background-color:red;
+        }
+        button a{
+        color : white;
+        }
+img{
+    border-radius: 2px;
+    width: 10rem;
+    height: 10vh;
+}
         #portfolio-container {
             background-color: #fff;
             padding: 20px;
@@ -24,6 +36,7 @@
             text-align: center;
             max-width: 800px;
             width: 100%;
+            overflow-x: auto; /* Enable horizontal scrolling for small screens */
         }
 
         table {
@@ -43,7 +56,6 @@
             color: #fff;
         }
 
-        /* Login form styles */
         #login-form {
             margin-top: 20px;
             text-align: center;
@@ -77,13 +89,55 @@
         #login-form button:hover {
             background-color: #45a049;
         }
+
+        /* Responsive styles for smaller screens */
+        @media only screen and (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    #portfolio-container {
+        padding: 10px;
+    }
+
+    #login-form input,
+    #login-form button {
+        width: 100%;
+    }
+
+    table {
+        display: flex;
+        overflow-x: auto;
+    }
+
+    th, td {
+        padding: 8px; /* Adjust the padding as needed for better spacing */
+        text-align: left; /* Adjust the text alignment as needed */
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    th {
+        text-align: center;
+    }
+
+    img {
+        border-radius: 2px;
+        width: 10rem;
+        height: 10vh;
+    }
+}
+
     </style>
 </head>
 <body>
 
 <div id="portfolio-container">
+    <img src="DI logo.png" alt="">
     <h2>Investment Portfolio</h2>
     <div id="login-form">
+
         <label for="username">Username:</label>
         <input type="text" id="username" placeholder="Enter your username">
         <br>
@@ -98,6 +152,7 @@
                 <tr>
                     <th>Investor Name</th>
                     <th>Invested Amount (Rs)</th>
+                    <th>Interest Accumulated (Rs)</th>
                     <th>Enrollment Date</th>
                     <th>Tenure Date</th>
                     <th>Remaining Days</th>
@@ -105,16 +160,17 @@
             </thead>
             <tbody id="portfolioData"></tbody>
         </table>
+
+       <button><a href = "Home.html>Exit</a></button>
     </div>
 </div>
 
 <script>
-    // Sample data for multiple investors
     const investorsData = [
         {
             username: 'one',
             password: 'one',
-            name: 'John Doe',
+            name: 'DILEEP OTTIKUNTA',
             investedAmount: 10000,
             enrollDate: '2023-01-01',
             tenureDate: '2023-12-31',
@@ -134,13 +190,11 @@
         const enteredUsername = document.getElementById('username').value;
         const enteredPassword = document.getElementById('password').value;
 
-        // Find the investor based on entered credentials
         const investor = investorsData.find(
             data => data.username === enteredUsername && data.password === enteredPassword
         );
 
         if (investor) {
-            // Display investor data
             displayInvestorData(investor);
         } else {
             alert('Invalid credentials. Please try again.');
@@ -148,31 +202,33 @@
     }
 
     function displayInvestorData(investor) {
-        // Hide login form
         document.getElementById('login-form').style.display = 'none';
-
-        // Display portfolio section
         document.getElementById('portfolio').style.display = 'block';
 
-        // Display investor data in the table
         const portfolioData = document.getElementById('portfolioData');
         const newRow = portfolioData.insertRow();
         const cellName = newRow.insertCell(0);
         const cellInvestedAmount = newRow.insertCell(1);
-        const cellEnrollDate = newRow.insertCell(2);
-        const cellTenureDate = newRow.insertCell(3);
-        const cellRemainingDays = newRow.insertCell(4);
+        const cellInterestAccumulated = newRow.insertCell(2);
+        const cellEnrollDate = newRow.insertCell(3);
+        const cellTenureDate = newRow.insertCell(4);
+        const cellRemainingDays = newRow.insertCell(5);
 
         cellName.textContent = investor.name;
         cellInvestedAmount.textContent = investor.investedAmount;
+        
+        // Calculate interest accumulated based on a fixed interest rate of 10 rupees per month
+        const interestRatePerMonth = 10;
+        const currentDate = new Date();
+        const enrollmentDate = new Date(investor.enrollDate);
+        const monthsPassed = (currentDate.getFullYear() - enrollmentDate.getFullYear()) * 12 + (currentDate.getMonth() - enrollmentDate.getMonth());
+        const interestAccumulated = (monthsPassed * interestRatePerMonth).toFixed(2);
+
+        cellInterestAccumulated.textContent = interestAccumulated;
         cellEnrollDate.textContent = investor.enrollDate;
         cellTenureDate.textContent = investor.tenureDate;
 
-        // Calculate remaining days based on a static tenure period of 365 days
-        const currentDate = new Date();
-        const tenureDate = new Date(investor.tenureDate);
-        const remainingDays = Math.floor((tenureDate - currentDate) / (24 * 60 * 60 * 1000));
-
+        const remainingDays = Math.floor((new Date(investor.tenureDate) - currentDate) / (24 * 60 * 60 * 1000));
         cellRemainingDays.textContent = remainingDays;
     }
 </script>
