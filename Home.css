@@ -17,6 +17,7 @@ a{
     background-color: blue;
     padding : 6px;
     color : white;
+    border-radius:3px;
 }
 a{
     color: white;
