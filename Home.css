@@ -1,0 +1,22 @@
+*{
+    background-color: aliceblue;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+.logo{
+   border-radius: 2px;
+    width: 10rem;
+    height: 10vh;
+}
+#one{
+    background-color: white;
+}
+a{
+    color: black;
+}
+#btn1{
+    background-color: blue;
+}
+a{
+    color: white;
+    background-color: blue;
+}
