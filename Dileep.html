@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investment Portfolio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background:linear-gradient(45deg,navy,purple);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        #portfolio-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #4caf50;
+            color: #fff;
+        }
+
+        /* Login form styles */
+        #login-form {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #login-form label {
+            display: block;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+
+        #login-form input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        #login-form button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            width: calc(100% - 20px);
+        }
+
+        #login-form button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<div id="portfolio-container">
+    <h2>Investment Portfolio</h2>
+    <div id="login-form">
+        <label for="username">Username:</label>
+        <input type="text" id="username" placeholder="Enter your username">
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" placeholder="Enter your password">
+        <br>
+        <button onclick="login()">Login</button>
+    </div>
+    <div id="portfolio" style="display:none;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Investor Name</th>
+                    <th>Invested Amount (Rs)</th>
+                    <th>Enrollment Date</th>
+                    <th>Tenure Date</th>
+                    <th>Remaining Days</th>
+                </tr>
+            </thead>
+            <tbody id="portfolioData"></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // Sample data for multiple investors
+    const investorsData = [
+        {
+            username: 'one',
+            password: 'one',
+            name: 'John Doe',
+            investedAmount: 10000,
+            enrollDate: '2023-01-01',
+            tenureDate: '2023-12-31',
+        },
+        {
+            username: 'jane_smith',
+            password: 'jane456',
+            name: 'Jane Smith',
+            investedAmount: 15000,
+            enrollDate: '2023-02-15',
+            tenureDate: '2024-02-14',
+        },
+        // Add more investors as needed
+    ];
+
+    function login() {
+        const enteredUsername = document.getElementById('username').value;
+        const enteredPassword = document.getElementById('password').value;
+
+        // Find the investor based on entered credentials
+        const investor = investorsData.find(
+            data => data.username === enteredUsername && data.password === enteredPassword
+        );
+
+        if (investor) {
+            // Display investor data
+            displayInvestorData(investor);
+        } else {
+            alert('Invalid credentials. Please try again.');
+        }
+    }
+
+    function displayInvestorData(investor) {
+        // Hide login form
+        document.getElementById('login-form').style.display = 'none';
+
+        // Display portfolio section
+        document.getElementById('portfolio').style.display = 'block';
+
+        // Display investor data in the table
+        const portfolioData = document.getElementById('portfolioData');
+        const newRow = portfolioData.insertRow();
+        const cellName = newRow.insertCell(0);
+        const cellInvestedAmount = newRow.insertCell(1);
+        const cellEnrollDate = newRow.insertCell(2);
+        const cellTenureDate = newRow.insertCell(3);
+        const cellRemainingDays = newRow.insertCell(4);
+
+        cellName.textContent = investor.name;
+        cellInvestedAmount.textContent = investor.investedAmount;
+        cellEnrollDate.textContent = investor.enrollDate;
+        cellTenureDate.textContent = investor.tenureDate;
+
+        // Calculate remaining days based on a static tenure period of 365 days
+        const currentDate = new Date();
+        const tenureDate = new Date(investor.tenureDate);
+        const remainingDays = Math.floor((tenureDate - currentDate) / (24 * 60 * 60 * 1000));
+
+        cellRemainingDays.textContent = remainingDays;
+    }
+</script>
+
+</body>
+</html>
